@@ -18,6 +18,7 @@ public class MainDialog {
     private JTextArea dialog;
     private JButton logOut, sendMesage;
     private Client client;
+    private JScrollPane dialogPane;
 
     public MainDialog(Client client){
         this.client = client;
@@ -36,6 +37,10 @@ public class MainDialog {
 
         dialog = new JTextArea();
         dialog.setEditable(false);
+        dialog.setLineWrap(true);
+        dialog.setWrapStyleWord(true);
+
+        dialogPane = new JScrollPane(dialog);
 
         yourMesage = new JTextField();
 
@@ -67,7 +72,7 @@ public class MainDialog {
         TableLayout tl = new TableLayout(size);
 
         panel.setLayout(tl);
-        panel.add(dialog, "1,1,1,2");
+        panel.add(dialogPane, "1,1,1,2");
         panel.add(logOut, "3,1,3,1");
         panel.add(yourMesage, "1,4,1,4");
         panel.add(sendMesage, "3,4,3,4");

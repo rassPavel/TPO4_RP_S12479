@@ -36,7 +36,7 @@ public class Client{
         String inMessage;
         while(true){
             inMessage = ReadWriteNIO.read(sc);
-            if(!inMessage.isEmpty()){
+            if(inMessage != null){
                 MD.postMessage(inMessage);
             }
         }
