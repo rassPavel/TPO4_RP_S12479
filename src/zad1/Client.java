@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.SocketChannel;
 
-public class Client extends Thread{
+public class Client{
 
     protected String name;
     private static String host = "localhost";
@@ -19,7 +19,7 @@ public class Client extends Thread{
     protected SocketChannel sc;
 
     public Client(){
-        start();
+        new Login(this);
     }
 
     public void startClient(String name){
@@ -47,8 +47,12 @@ public class Client extends Thread{
         ReadWriteNIO.write(name + ": " + mesage, sc);
     }
 
-    public void run(){
-        new Login(this);
+    public void stopClient(){
+        try {
+            sc.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

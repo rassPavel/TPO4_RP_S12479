@@ -23,7 +23,7 @@ public class Server extends Thread{
   private static String host = "localhost";
   private static int port = 11000;
 
-  private Server(){
+  public Server(){
 
     try {
 
@@ -31,7 +31,7 @@ public class Server extends Thread{
       serverChanel.socket().bind(new InetSocketAddress(host, port));
       serverChanel.configureBlocking(false);
       selector = Selector.open();
-      SelectionKey selectionKey = serverChanel.register(selector, SelectionKey.OP_ACCEPT);
+      serverChanel.register(selector, SelectionKey.OP_ACCEPT);
 
 
     } catch (IOException e) {
@@ -59,13 +59,13 @@ public class Server extends Thread{
           if (key.isAcceptable()) {
             SocketChannel cc = serverChanel.accept();
             cc.configureBlocking(false);
-            cc.register(selector, SelectionKey.OP_READ);
+            cc.register(selector, (SelectionKey.OP_READ | SelectionKey.OP_WRITE));
             continue;
           }
 
           if (key.isReadable()) {
             SocketChannel cc = (SocketChannel) key.channel();
-            String mesage = " "; // getMesageFromClient
+            String mesage = ReadWriteNIO.read(cc);
             sendMesagesToClients(mesage);    // obsluga zlecenia
             continue;
           }
@@ -79,6 +79,21 @@ public class Server extends Thread{
   }
 
   private void sendMesagesToClients(String mesage){
+
+    try {
+      selector.select();
+      Set keys = selector.selectedKeys();
+      Iterator iter = keys.iterator();
+      while (iter.hasNext()) {
+        SelectionKey selK = (SelectionKey) iter.next();
+        if(selK.isWritable()) {
+          SocketChannel chanel = (SocketChannel) selK.channel();
+          ReadWriteNIO.write(mesage, chanel);
+        }
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
   }
 

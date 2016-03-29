@@ -21,12 +21,7 @@ public class MainDialog {
 
     public MainDialog(Client client){
         this.client = client;
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
                 create();
-            }
-        });
     }
 
 
@@ -48,7 +43,7 @@ public class MainDialog {
         logOut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //log out and delete client from server
+                client.stopClient();
                 frame.dispose();
             }
         });
@@ -59,7 +54,8 @@ public class MainDialog {
         sendMesage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                client.sendMesage(yourMesage.getText());
+                client.sendMesage(yourMesage.getText() + "\n");
+                yourMesage.setText("");
             }
         });
 

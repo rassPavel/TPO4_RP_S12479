@@ -43,10 +43,11 @@ public class ReadWriteNIO {
                         char ch = charBuffer.get();
                         if(ch == '\r' || ch == '\n'){
                             loop = false;
-                            continue;
                         }
                         mesage.append(ch);
                     }
+                }else{
+                    loop = false;
                 }
             }
         } catch (IOException e) {

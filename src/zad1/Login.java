@@ -49,7 +49,9 @@ public class Login {
         accepteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                client.startClient(nameInput.getText());
+                new Thread(){
+                    public void run(){client.startClient(nameInput.getText());}
+                }.start();
                 frame.dispose();
             }
         });
