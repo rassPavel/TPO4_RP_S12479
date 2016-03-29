@@ -16,7 +16,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
-public class Server {
+public class Server extends Thread{
 
   private ServerSocketChannel serverChanel;
   private Selector selector;
@@ -39,10 +39,10 @@ public class Server {
       System.exit(1);
     }
     System.out.println("Server is runing...");
-    serverLoop();
+    start();
   }
 
-  private void serverLoop() {
+  public void run() {
 
     boolean serverIsRunning = true;
 

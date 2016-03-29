@@ -14,10 +14,13 @@ public class MainDialog {
 
     private JFrame frame;
     private JPanel panel;
-    private JTextField yourMesage, dialog;
+    private JTextField yourMesage;
+    private JTextArea dialog;
     private JButton logOut, sendMesage;
+    private Client client;
 
-    public MainDialog(){
+    public MainDialog(Client client){
+        this.client = client;
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -25,6 +28,7 @@ public class MainDialog {
             }
         });
     }
+
 
     private void create(){
 
@@ -35,7 +39,7 @@ public class MainDialog {
 
         panel = new JPanel();
 
-        dialog = new JTextField();
+        dialog = new JTextArea();
         dialog.setEditable(false);
 
         yourMesage = new JTextField();
@@ -55,7 +59,7 @@ public class MainDialog {
         sendMesage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //send mesage
+                client.sendMesage(yourMesage.getText());
             }
         });
 
@@ -74,6 +78,10 @@ public class MainDialog {
 
         frame.add(panel);
         frame.setVisible(true);
+    }
+
+    public void postMessage(String text){
+        dialog.append(text + "\n");
     }
 
 }

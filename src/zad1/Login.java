@@ -18,7 +18,10 @@ public class Login {
     private JTextField nameInput;
     private JButton accepteButton;
 
-    public Login(){
+    public Client client;
+
+    public Login(Client client){
+        this.client = client;
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -46,8 +49,7 @@ public class Login {
         accepteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Client(nameInput.getText());
-                //add new client to server
+                client.startClient(nameInput.getText());
                 frame.dispose();
             }
         });
